@@ -13,6 +13,12 @@ class TeamsService {
 
     return allTeams;
   };
+
+  public getByPk = async (id: string): Promise<ITeam> => {
+    const team = await Teams.findByPk(id);
+
+    return team as ITeam;
+  };
 }
 
 export default TeamsService;
