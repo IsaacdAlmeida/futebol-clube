@@ -3,6 +3,10 @@ import Matches from '../database/models/matches';
 import Teams from '../database/models/teams';
 import CustomError from '../errors/CustomError';
 
+// interface updateMatchParams {
+
+// }
+
 class MatchesService {
   model: Matches;
 
@@ -41,6 +45,23 @@ class MatchesService {
     if (!match) throw new CustomError(404, 'Match does not exist');
 
     await match.update({ inProgress: false });
+  };
+
+  public updateMatch = async (
+    id: string,
+    homeTeamGoals: number,
+    awayTeamGoals: number,
+  ) : Promise<IMatch> => {
+    const currentMatch = await Matches.findByPk(id);
+
+    if (!currentMatch) throw new CustomError(404, 'Match does not exist');
+
+    const updatedMatch = await currentMatch.update({
+      homeTeamGoals,
+      awayTeamGoals,
+    });
+
+    return updatedMatch as unknown as IMatch;
   };
 }
 
